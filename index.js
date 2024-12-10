@@ -7,7 +7,7 @@ var router = require("./routes/routes")
 
 
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 
@@ -17,5 +17,5 @@ app.use("/",router);
 
 
 app.listen(8686,() => {
-    console.log("Servidor rodando")
+    console.log("Server running")
 });
