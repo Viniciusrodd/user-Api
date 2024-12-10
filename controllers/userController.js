@@ -1,22 +1,28 @@
 
 
+const users = require('../models/user');
 class userController{
 
     async index(req, res){}
 
     async create(req, res){
-        var { name, email, password } = req.body;
+        var { nameVar, emailVar, passwordVar } = req.body;
 
-        if (name === '' || email === '' || password === '') {
+        if (nameVar === '' || emailVar === '' || passwordVar === '') {
             return res.status(400).send('Bad request my friend: Some fields are EMPTY');
         }
         
-        if (name === undefined || email === undefined || password === undefined) {
+        if (nameVar === undefined || emailVar === undefined || passwordVar === undefined) {
             return res.status(403).send('Its UNDEFINED my friend');
         }
 
-        console.log(req.body);
-        return res.status(200).send('Its OK my friend');
+        await users.newUsers({
+            name: nameVar,
+            email: emailVar,
+            password: passwordVar
+        })
+        return res.status(200).send('its OK my friend')
+
     }
 }
 
