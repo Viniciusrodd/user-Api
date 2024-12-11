@@ -1,9 +1,12 @@
 
 
-const users = require('../models/user');
+const usersModel = require('../models/user');
 class userController{
 
-    async index(req, res){}
+    async findUsers(req, res){
+        var usersFinded = await usersModel.findAll();
+        res.status(200).json(usersFinded);
+    }
 
     async create(req, res){
         var { nameVar, emailVar, passwordVar } = req.body;
@@ -16,19 +19,20 @@ class userController{
             return res.status(403).send('Its UNDEFINED my friend');
         }
 
-        var emailExist = await users.findEmail(emailVar)
+        var emailExist = await usersModel.findEmail(emailVar)
         if(emailExist){
             return res.status(406).send('Your email already exist')
         }
 
-        await users.newUsers({
+        await usersModel.newUsers({
             name: nameVar,
             email: emailVar,
             password: passwordVar
         })
-        return res.status(200).send('its OK my friend')
+        return res.status(200).send('its CREATED my friend')
 
     }
+
 }
 
 

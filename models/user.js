@@ -3,6 +3,17 @@ const knexBd = require('../database/connection');
 const bcrypt = require('bcrypt');
 
 class users{
+    async findAll(){
+        try{
+            var dataUsers = await knexBd.select('id', 'name', 'email', 'role')
+            .from('users')
+            return dataUsers
+
+        }catch(error){
+            console.log(error)
+            return []
+        }
+    }
 
     async newUsers(newUsers){
         try{
