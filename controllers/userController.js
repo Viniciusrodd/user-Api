@@ -16,6 +16,11 @@ class userController{
             return res.status(403).send('Its UNDEFINED my friend');
         }
 
+        var emailExist = await users.findEmail(emailVar)
+        if(emailExist){
+            return res.status(406).send('Your email already exist')
+        }
+
         await users.newUsers({
             name: nameVar,
             email: emailVar,
