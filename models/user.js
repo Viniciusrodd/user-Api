@@ -6,12 +6,30 @@ class users{
     async findAll(){
         try{
             var dataUsers = await knexBd.select('id', 'name', 'email', 'role')
-            .from('users')
-            return dataUsers
+            .from('users');
+            return dataUsers;
 
         }catch(error){
-            console.log(error)
-            return []
+            console.log(error);
+            return [];
+        }
+    }
+
+    async findById(idVar){
+        try{
+            var idUser = await knexBd.select('id', 'name', 'email', 'role')
+            .where({
+                id: idVar
+            }).from('users');
+
+            if(idUser.length > 0){
+                return idUser[0];
+            }else{
+                return undefined;
+            }
+        }catch(error){
+            console.log(error);
+            return undefined;
         }
     }
 

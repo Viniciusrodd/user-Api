@@ -8,6 +8,17 @@ class userController{
         res.status(200).json(usersFinded);
     }
 
+    async findUsersbyId(req, res){
+        var idVar = req.params.id;
+        var userFinded = await usersModel.findById(idVar);
+
+        if(!userFinded){
+            res.status(404).json({});
+        }else{
+            res.status(200).json(userFinded);
+        }
+    }
+
     async create(req, res){
         var { nameVar, emailVar, passwordVar } = req.body;
 
