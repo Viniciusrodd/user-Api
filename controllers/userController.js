@@ -44,6 +44,17 @@ class userController{
 
     }
 
+    async editUsers(req, res){
+        var {id, name, email, role} = req.body;
+
+        var result = await usersModel.updateUsers(id, name, email, role);
+        if(result.status){
+            res.status(200).send('Users updated');
+        }else{
+            res.status(406).json(result);
+        }
+    }
+
 }
 
 

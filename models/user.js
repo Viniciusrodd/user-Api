@@ -54,8 +54,7 @@ class users{
     async findEmail(emailVar){
         try{
 
-            var result = await knexBd.select('*').from('users')
-            .where({
+            var result = await knexBd.select('*').from('users').where({
                 email: emailVar
             })
 
@@ -69,6 +68,51 @@ class users{
 
         }catch(error){
             console.log(error)
+        }
+    }
+
+    async updateUsers(idVar, nameVar, emailVar, roleVar){
+        try{
+            var user = await this.findById(idVar);
+            var emailExist = await this.findEmail(emailVar);
+            var editUser = {};
+
+            if(!user){
+                return {
+                    status: false,
+                    error: 'User doesn`t exist'
+                }
+            }else{
+                if(emailVar != user.email){
+                    editUser.email = emailVar;
+                }else{
+                    return {
+                        status: false,
+                        error: 'User email already exist'
+                    }
+                }
+            }
+
+            if(nameVar != undefined){
+                editUser.name = nameVar
+            }
+
+            if(roleVar != undefined){
+                editUser.role = roleVar
+            }
+
+            await knexBd.update(editUser).where({
+                id: idVar
+            }).from('users')
+            return {
+                status: true
+            }
+
+        }catch(error){
+            return {
+                status: false,
+                error: error
+            }
         }
     }
 
