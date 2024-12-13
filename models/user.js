@@ -23,6 +23,7 @@ class users{
             }).from('users');
 
             if(idUser.length > 0){
+                console.log(idUser[0])
                 return idUser[0];
             }else{
                 return undefined;
@@ -33,7 +34,7 @@ class users{
         }
     }
 
-    async newUsers(newUsers){
+    async createUsers(newUsers){
         try{
 
             var salt = bcrypt.genSaltSync(10)
@@ -114,6 +115,33 @@ class users{
                 error: error
             }
         }
+    }
+
+    async deleteUsers(idVar){
+        try{
+            var idFind = await this.findById(idVar);
+            if(!idFind){
+                console.log('Id not found');
+                return {
+                    status: false,
+                    error: `User by id: ${idVar} doesn't exist!!!`
+                }
+            }
+
+            await knexBd('users').where({ 
+                id: idVar 
+            }).delete();
+            console.log(`Sucess user delete by id: ${idVar}`);
+            return {
+                status:true
+            };  
+        }
+        catch(error){
+            console.error('Error deleting user:', error);
+            return {
+                status: false
+            };
+        };
     }
 
 }

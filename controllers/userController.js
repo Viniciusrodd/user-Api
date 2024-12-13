@@ -35,7 +35,7 @@ class userController{
             return res.status(406).send('Your email already exist')
         }
 
-        await usersModel.newUsers({
+        await usersModel.createUsers({
             name: nameVar,
             email: emailVar,
             password: passwordVar
@@ -52,6 +52,21 @@ class userController{
             res.status(200).send('Users updated');
         }else{
             res.status(406).json(result);
+        }
+    }
+
+    async delete(req, res){
+        var id = req.params.id;
+
+        var result = await usersModel.deleteUsers(id);
+
+        if(result.status === true){
+            var newusers = await usersModel.findAll()
+            return res.status(200).json(newusers);
+        }
+
+        if(result.status === false){
+            return res.status(400).send(result.error);
         }
     }
 
