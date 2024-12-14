@@ -1,6 +1,7 @@
 
-
 const usersModel = require('../models/user');
+const passwordTokenModel = require('../models/passwordToken');
+
 class userController{
 
     async findUsers(req, res){
@@ -70,6 +71,22 @@ class userController{
         }
     }
 
+    async passwordRecovery(req, res){
+        var email = req.body.email;
+
+        try{
+            var result = await passwordTokenModel.create(email)
+
+            if(!result.status){
+                return res.status(400).send(result.error);
+            }
+            return res.status(200).send(result.token);
+        }
+        catch(error){
+            return res.status(404).send('Email send not found my friend!!' + error);
+        }
+
+    }
 }
 
 
