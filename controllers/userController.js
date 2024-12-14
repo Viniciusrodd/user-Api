@@ -71,7 +71,7 @@ class userController{
         }
     }
 
-    async passwordRecovery(req, res){
+    async passwordRecover(req, res){
         var email = req.body.email;
 
         try{

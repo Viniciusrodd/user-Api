@@ -34,6 +34,24 @@ class users{
         }
     }
 
+    async findByEmail(email){
+        try{
+            var emailfind = await knexBd.select('id', 'name', 'email', 'role')
+            .where({
+                email: email
+            }).from('users');
+
+            if(emailfind.length > 0){
+                return emailfind[0];
+            }else{
+                return undefined;
+            }
+        }catch(error){
+            console.log(error);
+            return undefined;
+        }
+    }
+
     async createUsers(newUsers){
         try{
 

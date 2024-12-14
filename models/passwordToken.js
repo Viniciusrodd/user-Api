@@ -6,8 +6,8 @@ var userModel = require('./user')
 class passwordToken{
     async create(emailVar){
         try{
-            var user = await userModel.findEmail(emailVar);
-            var tokenVar = Date.now();
+            var user = await userModel.findByEmail(emailVar);
+            var tokenVar = String(Date.now());
 
             if(!user){
                 return {
@@ -20,7 +20,7 @@ class passwordToken{
                 user_id: user.id,
                 used: 0,
                 token: tokenVar //Here its recommend uses a 'UUID' for token key
-            }).table("passwordTokens")
+            }).table("passwordtokens")
 
             return {
                 status: true,
