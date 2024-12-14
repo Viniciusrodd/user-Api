@@ -75,7 +75,7 @@ class userController{
         var email = req.body.email;
 
         try{
-            var result = await passwordTokenModel.create(email)
+            var result = await passwordTokenModel.createToken(email)
 
             if(!result.status){
                 return res.status(400).send(result.error);
@@ -87,7 +87,7 @@ class userController{
         }
     }
 
-    async validateToken(req, res){
+    async changePassword(req, res){
         var tokenVar = req.body.token;
         var passwordVar = req.body.password;
 
@@ -98,7 +98,12 @@ class userController{
                 res.status(406).send('Token invalidated');
             }
 
-            res.status(200).send(isTokenValid.token[0]);
+            await usersModel.changePassword(
+                passwordVar, 
+                isTokenValid.token[0].user_id,
+                isTokenValid.token[0].token
+            )
+            res.status(200).send('Password changed successfully');
         }
         catch(error){
             return res.status(404).send('error in validate controller');

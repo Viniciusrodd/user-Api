@@ -1,6 +1,7 @@
 
 const knexBd = require('../database/connection');
 const bcrypt = require('bcrypt');
+const passwordTokenModel = require('./passwordToken');
 
 class users{
     async findAll(){
@@ -36,7 +37,7 @@ class users{
 
     async findByEmail(email){
         try{
-            var emailfind = await knexBd.select('id', 'name', 'email', 'role')
+            var emailfind = await knexBd.select()
             .where({
                 email: email
             }).from('users');
@@ -160,6 +161,25 @@ class users{
                 status: false
             };
         };
+    }
+
+    async changePassword(newPass, idVar, token){
+        try{
+            var newHash = await bcrypt.hash(newPass, 10);
+
+            await knexBd.update({
+                password: newHash 
+            }).where({id: idVar}).from('users')
+
+            await passwordTokenModel.tokenUsed(idVar)
+            console.log('tokenUsed changed')
+        }
+        catch(error){
+            return {
+                status: false,
+                error: 'Error to change password' 
+            }
+        }
     }
 
 }

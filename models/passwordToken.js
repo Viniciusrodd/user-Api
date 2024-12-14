@@ -1,10 +1,10 @@
 
 var knexBd = require('../database/connection');
-var userModel = require('./user')
+var userModel = require('./user');
 
 
 class passwordToken{
-    async create(emailVar){
+    async createToken(emailVar){
         try{
             var user = await userModel.findByEmail(emailVar);
             var tokenVar = String(Date.now());
@@ -54,13 +54,31 @@ class passwordToken{
             }else{
                 console.log('token already used')
             }
-
-        
         }
         catch(error){
             return {
                 status: false,
                 error: 'error to find token'
+            }
+        }
+    }
+
+    async tokenUsed(idvar){
+        try{
+            await knexBd.where({
+                user_id: idvar
+            }).from('passwordtokens').update({
+                used: 1
+            })
+            return {
+                status: true,
+                sucess: 'tokenUsed changed'
+            }
+        }
+        catch(error){
+            return {
+                status: false,
+                error: "Erro at tokenUsed"
             }
         }
     }
