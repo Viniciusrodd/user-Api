@@ -37,6 +37,33 @@ class passwordToken{
             };
         }
     }
+
+    async validate(tokenVar){
+        try{
+            var tokenData = await knexBd.select()
+            .where({
+                token: tokenVar
+            }).from("passwordtokens")
+
+            if(tokenData[0].used < 1){
+                console.log('Token never used (0)')
+                return {
+                    status: true,
+                    token: tokenData
+                }
+            }else{
+                console.log('token already used')
+            }
+
+        
+        }
+        catch(error){
+            return {
+                status: false,
+                error: 'error to find token'
+            }
+        }
+    }
 }
 
 module.exports = new passwordToken();

@@ -85,7 +85,24 @@ class userController{
         catch(error){
             return res.status(404).send('Email send not found my friend!!' + error);
         }
+    }
 
+    async validateToken(req, res){
+        var tokenVar = req.body.token;
+        var passwordVar = req.body.password;
+
+        try{
+            var isTokenValid = await passwordTokenModel.validate(tokenVar)
+
+            if(!isTokenValid.status){
+                res.status(406).send('Token invalidated');
+            }
+
+            res.status(200).send(isTokenValid.token[0]);
+        }
+        catch(error){
+            return res.status(404).send('error in validate controller');
+        }
     }
 }
 
