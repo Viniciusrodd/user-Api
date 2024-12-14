@@ -1,11 +1,11 @@
 
 var knexBd = require('../database/connection');
-var userModel = require('./user');
 
 
 class passwordToken{
     async createToken(emailVar){
         try{
+            var userModel = require('./user');
             var user = await userModel.findByEmail(emailVar);
             var tokenVar = String(Date.now());
 
@@ -63,10 +63,10 @@ class passwordToken{
         }
     }
 
-    async tokenUsed(idvar){
+    async tokenUsed(tokenVar){
         try{
             await knexBd.where({
-                user_id: idvar
+                token: tokenVar
             }).from('passwordtokens').update({
                 used: 1
             })

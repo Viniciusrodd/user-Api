@@ -98,7 +98,7 @@ class userController{
                 res.status(406).send('Token invalidated');
             }
 
-            await usersModel.changePassword(
+            await usersModel.newPassword(
                 passwordVar, 
                 isTokenValid.token[0].user_id,
                 isTokenValid.token[0].token
@@ -106,7 +106,7 @@ class userController{
             res.status(200).send('Password changed successfully');
         }
         catch(error){
-            return res.status(404).send('error in validate controller');
+            return res.status(404).send('Token already used my friend');
         }
     }
 }

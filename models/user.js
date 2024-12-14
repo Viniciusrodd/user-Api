@@ -163,7 +163,7 @@ class users{
         };
     }
 
-    async changePassword(newPass, idVar, token){
+    async newPassword(newPass, idVar, token){
         try{
             var newHash = await bcrypt.hash(newPass, 10);
 
@@ -171,7 +171,7 @@ class users{
                 password: newHash 
             }).where({id: idVar}).from('users')
 
-            await passwordTokenModel.tokenUsed(idVar)
+            await passwordTokenModel.tokenUsed(token)
             console.log('tokenUsed changed')
         }
         catch(error){
