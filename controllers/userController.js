@@ -1,6 +1,11 @@
 
-const usersModel = require('../models/user');
-const passwordTokenModel = require('../models/passwordToken');
+var usersModel = require('../models/user');
+var passwordTokenModel = require('../models/passwordToken');
+var jwt = require('jsonwebtoken')
+
+
+var secretToken = 'dsadsadasdsajdshalkhlkhaa';
+
 
 class userController{
 
@@ -109,6 +114,8 @@ class userController{
             return res.status(404).send('Token already used my friend');
         }
     }
+
+    
 }
 
 

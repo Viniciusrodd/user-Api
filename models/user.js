@@ -3,6 +3,7 @@ const knexBd = require('../database/connection');
 const bcrypt = require('bcrypt');
 const passwordTokenModel = require('./passwordToken');
 
+
 class users{
     async findAll(){
         try{
