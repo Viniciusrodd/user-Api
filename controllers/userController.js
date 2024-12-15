@@ -2,6 +2,7 @@
 var usersModel = require('../models/user');
 var passwordTokenModel = require('../models/passwordToken');
 var jwt = require('jsonwebtoken')
+var bcrypt = require('bcrypt');
 
 
 var secretToken = 'dsadsadasdsajdshalkhlkhaa';
@@ -115,7 +116,42 @@ class userController{
         }
     }
 
-    
+    async login(req, res){
+        var {emailVar, passwordVar} = req.body;
+
+        try{
+            var userData = await usersModel.findByEmail(emailVar);
+
+            if(!userData){
+                return res.status(406).send({
+                    status: false, 
+                    error: 'User email not found'
+                })
+            }
+
+            var result = await bcrypt.compare(passwordVar, userData.password)
+            if(!result){
+                return res.status(406).send({
+                    status: false, 
+                    error: 'User password not found'
+                })
+            }
+
+            var tokenVar = jwt.sign({
+                email: userData.email,
+                role: userData.role
+            }, secretToken)
+
+            return res.status(200).json({
+                status: true, 
+                result: result,
+                token: tokenVar
+            })    
+        }
+        catch(error){
+            return res.status(404).send('Login failed');
+        }
+    }
 }
 
 
