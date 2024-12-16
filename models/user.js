@@ -25,7 +25,6 @@ class users{
             }).from('users');
 
             if(idUser.length > 0){
-                console.log(idUser[0])
                 return idUser[0];
             }else{
                 return undefined;

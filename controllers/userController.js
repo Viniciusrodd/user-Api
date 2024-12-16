@@ -22,7 +22,7 @@ class userController{
         if(!userFinded){
             res.status(404).json({});
         }else{
-            res.status(200).json(userFinded);
+            res.status(200).send(userFinded);
         }
     }
 
